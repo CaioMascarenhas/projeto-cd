@@ -1,0 +1,22 @@
+﻿coluna,descrição,papel,domínio
+customerID,Identificador do cliente; fora do modelo,ID,texto
+gender,Categoria de gênero registrada na base,preditor,"['Female', 'Male']"
+SeniorCitizen,Indicador de pessoa idosa (0/1); tratar como categórica,preditor,"[0, 1]"
+Partner,Possui parceiro(a),preditor,"['No', 'Yes']"
+Dependents,Possui dependentes,preditor,"['No', 'Yes']"
+tenure,Permanência em meses; não é uma data de observação,preditor,numérico não negativo
+PhoneService,Contratação de telefonia,preditor,"['No', 'Yes']"
+MultipleLines,Múltiplas linhas ou ausência de telefonia,preditor,"['No', 'Yes', 'No phone service']"
+InternetService,"Tipo de internet: DSL, fibra ou sem internet",preditor,"['DSL', 'Fiber optic', 'No']"
+OnlineSecurity,Segurança online,preditor,"['No', 'Yes', 'No internet service']"
+OnlineBackup,Backup online,preditor,"['No', 'Yes', 'No internet service']"
+DeviceProtection,Proteção de dispositivo,preditor,"['No', 'Yes', 'No internet service']"
+TechSupport,Suporte técnico,preditor,"['No', 'Yes', 'No internet service']"
+StreamingTV,Streaming de TV,preditor,"['No', 'Yes', 'No internet service']"
+StreamingMovies,Streaming de filmes,preditor,"['No', 'Yes', 'No internet service']"
+Contract,Periodicidade contratual,preditor,"['Month-to-month', 'One year', 'Two year']"
+PaperlessBilling,Fatura digital,preditor,"['No', 'Yes']"
+PaymentMethod,Método de pagamento,preditor,"['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)']"
+MonthlyCharges,"Cobrança mensal, em unidades monetárias da base",preditor,numérico não negativo
+TotalCharges,Cobrança acumulada; texto no arquivo original,preditor,numérico não negativo
+Churn,"Alvo observado: Yes=1 (evasão), No=0 (não evasão)",alvo,texto

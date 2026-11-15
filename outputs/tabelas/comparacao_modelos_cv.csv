@@ -1,0 +1,6 @@
+﻿modelo,AP_cv,AP_dp_folds,ROC_AUC_cv,F1_cv_limiar_05,AP_treino,parametros
+Random Forest,0.671669778952226,0.011465137080820842,0.8484811121129143,0.5720940714644022,0.788606541576106,"{'modelo__class_weight': None, 'modelo__max_depth': 8, 'modelo__min_samples_leaf': 5}"
+Regressão Logística,0.6667872158421909,0.02461784738027847,0.8481605411963757,0.5976760634095888,0.6754355547229234,"{'modelo__C': 1.0, 'modelo__class_weight': None}"
+HistGradientBoosting,0.661981631014709,0.015805087338945114,0.8419040587872987,0.5821161512254853,0.786047892119852,"{'modelo__class_weight': None, 'modelo__l2_regularization': 1.0, 'modelo__max_leaf_nodes': 7}"
+Árvore de Decisão,0.6029460757466567,0.02133401437268362,0.8168007747278434,0.5513768185152887,0.6974518897936415,"{'modelo__class_weight': None, 'modelo__max_depth': 6, 'modelo__min_samples_leaf': 25}"
+Dummy,0.26532544378698225,0.00047337278106509564,0.5,0.0,0.26532544378698225,{}

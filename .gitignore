@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+tmp/
+outputs/modelo_churn.joblib
+resultados_churn.zip

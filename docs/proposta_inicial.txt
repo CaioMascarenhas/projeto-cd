@@ -1,0 +1,121 @@
+UNIVERSIDADE FEDERAL DE ALAGOAS (UFAL)
+
+INSTITUTO DE COMPUTAÇÃO (IC)
+
+DISCIPLINA: CIÊNCIA DE DADOS (2026.2)
+
+Docente: Prof. Dr. Bruno Almeida Pimentel
+
+
+
+PROJETO FINAL — PARTE 1: DEFINIÇÃO DA BASE E PROPOSTA INICIAL
+
+Integrantes da Equipe:
+
+– Arthur Vinicius Ferreira Rodrigues
+
+– Caio Mascarenhas Soares
+
+– Mírian Natália Gomes dos Santos
+
+– Vinicius Albuquerque Sales de Alencar
+
+1 NOME E TEMA DA BASE DE DADOS
+
+• Base Selecionada: IBM Telco Customer Churn.
+
+• Tema Central: Predição de evasão de clientes (churn) e definição de estratégias de retenção baseadas em dados no setor de telecomunicações.
+
+2 ORIGEM DOS DADOS
+
+• Repositório Público: Kaggle Datasets (conjunto de dados aberto originalmente disponibilizado pela IBM Sample Data Sets).
+
+• Link de Acesso: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+
+3 DESCRIÇÃO GERAL DA BASE
+
+O conjunto de dados selecionado reúne 7.043 registros de assinantes únicos de uma operadora de telecomunicações e 21 colunas. Desconsiderando o identificador único irrelevante para modelagem (customerID), restam 20 atributos úteis para análise (19 variáveis explicativas e 1 variável alvo), atendendo integralmente aos requisitos mínimos de volume (superior a 5.000 instâncias) e dimensionalidade (mínimo de 10 colunas). A Tabela 1 sintetiza a organização dos atributos da base.
+
+
+
+
+
+Tabela 1 – Estrutura e categorização das variáveis úteis da base IBM Telco Customer Churn
+
+Grupo de Variáveis
+
+	Qtd.
+
+	Atributos
+
+	Tipo de Dado
+
+	Demográficas
+
+	4
+
+	gender, SeniorCitizen, Partner, Dependents
+
+	Categóricas / Binárias
+
+	Serviços Contratados
+
+	9
+
+	PhoneService, MultipleLines, InternetService, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport, StreamingTV, StreamingMovies
+
+	Categóricas Nominais
+
+	Contrato e Faturamento
+
+	6
+
+	tenure, Contract, PaperlessBilling, PaymentMethod, MonthlyCharges, TotalCharges
+
+	Numéricas e Categóricas
+
+	Variável Alvo
+
+	1
+
+	Churn (Yes / No — taxa de evasão de aproximadamente 26,5%)
+
+	Binária (Alvo)
+
+	Fonte: Elaborado pelos autores com base nos dados do Kaggle (2026).
+
+4 JUSTIFICATIVA DA ESCOLHA
+
+A seleção da base justifica-se por sua aderência técnica aos critérios da disciplina e por sua relevância gerencial. Sob o aspecto técnico, o conjunto combina variáveis numéricas, binárias e categóricas e apresenta imperfeições reais que demandam pré-processamento programável, destacando-se: a conversão da coluna TotalCharges (originalmente armazenada como texto com espaços em branco que geram 11 valores ausentes), a exclusão do identificador customerID, a codificação de variáveis categóricas (One-Hot Encoding), a padronização de escalas numéricas, a engenharia de atributos (criação da contagem de serviços adicionais contratados e da razão entre gasto acumulado e tempo de permanência) e o tratamento do desbalanceamento moderado da classe alvo (aproximadamente 26,5% de churn).
+
+Sob o aspecto de negócio, no setor de telecomunicações o custo de aquisição de um novo assinante (CAC) supera substancialmente o custo de retenção. Os atributos contratuais e financeiros disponíveis viabilizam a identificação de padrões de atrito e sensibilidade a preço, permitindo formular pelo menos três insights acionáveis com impacto financeiro mensurável.
+
+5 PROBLEMA ANALISADO
+
+O projeto busca responder à seguinte questão central de pesquisa e negócio: quais fatores contratuais, comportamentais e financeiros impulsionam o cancelamento de assinaturas (churn) e como identificar antecipadamente os clientes com maior propensão à evasão para direcionar ações preventivas de retenção com maior retorno financeiro?
+
+6 TIPO DE TOMADA DE DECISÃO APOIADA
+
+• Priorização Preditiva de Risco (CRM): Ranquear assinantes ativos por probabilidade de cancelamento para acionar proativamente a equipe de retenção antes da solicitação formal de desligamento.
+
+• Calibração de Ofertas e Políticas Contratuais: Direcionar incentivos (descontos temporários na fatura, migração incentivada de contratos mensais para planos anuais ou inclusão de suporte técnico) apenas aos perfis com alto risco e margem viável (MonthlyCharges), evitando desperdício de orçamento com clientes de baixo risco.
+
+7 HIPÓTESES INICIAIS LEVANTADAS PELA EQUIPE
+
+• H1 (Vínculo Contratual): Clientes vinculados a contratos mensais (Month-to-month) apresentam taxa de evasão significativamente superior à de clientes com contratos de fidelidade de um ou dois anos.
+
+• H2 (Tempo de Permanência — Tenure): A maior incidência de cancelamentos concentra-se nos primeiros meses de relacionamento (tenure reduzido), diminuindo progressivamente após o primeiro ano.
+
+• H3 (Serviços Agregados e Suporte): Assinantes de internet por fibra óptica sem serviços complementares de proteção ou suporte técnico (OnlineSecurity e TechSupport) possuem maior propensão ao churn.
+
+• H4 (Faturamento e Método de Pagamento): Faturas mensais elevadas (MonthlyCharges) combinadas ao pagamento via cheque eletrônico (Electronic check) associam-se a taxas de cancelamento significativamente maiores em comparação ao débito automático ou cartão de crédito.
+
+8 POSSÍVEIS MÉTODOS QUE PODERÃO SER UTILIZADOS
+
+• Análise Exploratória e Inferência Estatística: Medidas descritivas, visualizações comparativas e testes de hipótese (Qui-quadrado de Pearson para variáveis categóricas e Mann-Whitney U ou Teste t para variáveis contínuas entre os grupos Churn e Não-Churn).
+
+• Pré-processamento e Engenharia de Atributos: Tratamento de valores ausentes em TotalCharges, criação de variáveis derivadas, One-Hot Encoding, padronização (StandardScaler) e ajuste de desbalanceamento (class_weight e calibração de limiar de decisão).
+
+• Modelagem Preditiva e Avaliação: Comparação entre Regressão Logística (baseline interpretável), Árvore de Decisão, Random Forest e Gradient Boosting (XGBoost/LightGBM), avaliados via validação cruzada estratificada (Stratified K-Fold) com métricas adequadas ao desbalanceamento (AUC-ROC, Precisão, Revocação, F1-Score e Matriz de Confusão).
+
+• Recurso Adicional Planejado: Desenvolvimento de uma aplicação web interativa (Streamlit) contendo painel exploratório e simulador de risco de churn para apoio à decisão comercial.

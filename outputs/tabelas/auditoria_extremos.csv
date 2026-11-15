@@ -1,0 +1,4 @@
+﻿variavel,limite_iqr_inf,limite_iqr_sup,fora_iqr,decisao
+tenure,-61.5,126.5,0,Manter valores plausíveis; não excluir automaticamente
+MonthlyCharges,-45.25,170.75,0,Manter valores plausíveis; não excluir automaticamente
+TotalCharges,-4779.65,8989.15,0,Manter valores plausíveis; não excluir automaticamente

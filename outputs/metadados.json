@@ -1,0 +1,81 @@
+{
+  "gerado_em_utc": "2026-11-15T22:11:25.755269+00:00",
+  "seed": 42,
+  "csv": "WA_Fn-UseC_-Telco-Customer-Churn.csv",
+  "sha256_csv": "88be4b93fbe0cc83421af1c503794c97c342eca914c1576db7c276e61d61358a",
+  "python": "3.11.9",
+  "versoes": {
+    "pandas": "3.1.1",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "joblib": "1.6.0",
+    "nbformat": "5.11.1",
+    "nbclient": "0.11.0",
+    "ipykernel": "7.4.0"
+  },
+  "modelo": "Random Forest",
+  "parametros": {
+    "modelo__class_weight": null,
+    "modelo__max_depth": 8,
+    "modelo__min_samples_leaf": 5
+  },
+  "limiar": 0.10034677632370853,
+  "metrica_selecao": "average_precision",
+  "metrica_limiar": "F2 na validação",
+  "calibracao": "sigmoid, 3 folds no treino; ensemble=True",
+  "particoes": {
+    "treino": 4225,
+    "validacao": 1409,
+    "teste": 1409
+  },
+  "preditores": [
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod",
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges"
+  ],
+  "q75_fatura_treino": 89.75,
+  "metricas_teste": {
+    "ROC_AUC": 0.842840166369578,
+    "AP": 0.6536625179637443,
+    "precisao": 0.4171632896305125,
+    "revocacao": 0.9358288770053476,
+    "F1": 0.5770816158285244,
+    "F2": 0.7494646680942184,
+    "acuracia": 0.6359119943222143,
+    "acuracia_balanceada": 0.7316825544447028,
+    "Brier": 0.13734766137096097,
+    "fracao_contatada": 0.595457771469127
+  },
+  "financeiro": {
+    "custo_contato": 10.0,
+    "meses": 3,
+    "margem": 0.4,
+    "capacidade": 0.2,
+    "eficacia_equilibrio": 0.16499390926739188
+  },
+  "limitacoes": [
+    "Base observacional amostral, sem validação temporal",
+    "Horizonte futuro e disponibilidade pré-cancelamento não comprovados",
+    "Associações não causais e retorno financeiro hipotético",
+    "Modelo ajustado apenas no treino; não foi retreinado após avaliação"
+  ]
+}
