@@ -4,3 +4,14 @@ __pycache__/
 tmp/
 outputs/modelo_churn.joblib
 resultados_churn.zip
+/projeto_cd.zip
+.chart-data-*/
+.codex-finalizer/
+docs/overleaf_backup/
+.env
+.env.*
+!.env.example
+*.log
+*.aux
+*.out
+*.synctex.gz

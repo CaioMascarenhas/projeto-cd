@@ -6,7 +6,7 @@
 - Equipe na proposta: Arthur Vinicius Ferreira Rodrigues, Caio Mascarenhas Soares, Mírian Natália Gomes dos Santos e Vinicius Albuquerque Sales de Alencar.
 - Leia `Projeto (2026-1).pdf` (11 páginas), `Aula_cd_projeto.pdf` (19 páginas) e `docs/proposta_inicial.txt` antes de alterar o escopo. O último é uma cópia textual do Google Docs indicado em `nossodocinicial.txt`, obtida em 15/11/2026.
 - Há divergência de identificação do semestre: nome do PDF menciona 2026-1, proposta menciona 2026.2. Não resolver por suposição nem inventar prazos.
-- `overleaf.txt` contém um link de convite com token. A leitura pública retornou erro de acesso em 15/11/2026; o conteúdo do projeto LaTeX NÃO foi lido. Não divulgar o token nos resultados nem sobrescrever o projeto remoto.
+- `overleaf.txt` contém apenas o endereço do projeto, sem token de convite. A leitura pública inicialmente falhou, mas o usuário autorizou depois acesso pelo Chrome e atualização do projeto. O LaTeX foi lido integralmente, copiado para `docs/overleaf_backup/` e atualizado no Overleaf com permissão de edição. O backup é privado e ignorado pelo Git. Novas mudanças devem preservar a cópia original e o trabalho atual.
 - Fonte da base declarada pela equipe: IBM Telco Customer Churn, distribuída em https://www.kaggle.com/datasets/blastchar/telco-customer-churn . O notebook usa apenas o CSV local, sem download em tempo de execução.
 
 ## Objetivo e requisitos
@@ -67,3 +67,19 @@
 - `output/apresentacao/roteiro_fala.md`: roteiro de 9 minutos, com tempo por slide e apoio para perguntas.
 - O usuário pediu até 10 minutos e palavras simples. Esse limite prevalece sobre os 20 minutos descritos nos documentos da disciplina.
 - Os slides distinguem taxas descritivas no treino de avaliação no teste. Apresentam 93,6% de revocação junto de 41,7% de precisão e 59,5% de clientes sinalizados, além do cenário com 20% de capacidade. As ações e a meta de redução são propostas para um piloto, não efeitos demonstrados.
+
+## Artigo no Overleaf
+
+- Projeto atualizado com autorização do usuário: `https://pt.overleaf.com/project/6afa1469a1368d20c9cba380`.
+- Cópia original integral em `docs/overleaf_backup/projeto_original.zip`; fonte original em `docs/overleaf_backup/main.tex`.
+- Fonte revisada, estilo SBC e duas figuras em `output/overleaf/`; pacote em `artigo_atualizado.zip`. Gerador: `scripts/preparar_artigo.py`, que usa as saídas validadas do notebook.
+- PDF compilado pelo Overleaf e revisado: `output/pdf/artigo_churn_atualizado.pdf`, 9 páginas, dentro do limite de 12.
+- Corrigidos placeholders, autoria, atributos, divisão 60/20/20, boosting utilizado, seleção por AP, calibração e limiar. O texto distingue a comparação em CV da avaliação final, e propostas de piloto dos resultados observados.
+
+## Publicação e manutenção
+
+- Repositório: https://github.com/CaioMascarenhas/projeto-cd, branch `main`. O usuário autorizou organizar e publicar as mudanças nesta sessão.
+- Não versionar ambientes, backups privados, tokens, arquivos `.chart-data-*` ou o arquivo local `projeto_cd.zip`.
+- `scripts/preparar_artigo.py` pode usar o estilo SBC já versionado em `output/overleaf/`, sem depender do backup privado.
+- `.github/workflows/verificar.yml` executa o notebook, verifica o projeto, simula o fluxo Colab e gera as fontes do artigo em Linux/Python 3.11. Informar o resultado real da execução, sem presumir sucesso.
+- Um convite antigo do Overleaf apareceu no histórico anterior. A limpeza do arquivo atual não revoga esse convite nem remove o histórico. Não reescrever o histórico remoto sem autorização explícita.

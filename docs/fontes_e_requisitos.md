@@ -8,7 +8,7 @@ Consulta em 15/11/2026, para implementar o notebook a partir dos materiais exist
 | `Aula_cd_projeto.pdf` | Integral, 19 páginas; texto extraído e páginas inspecionadas visualmente | Narrativa de EDA, tratamento, comparação de modelos, validação, explicabilidade e decisão gerencial |
 | `nossodocinicial.txt` | Integral; contém link, não o conteúdo da proposta | Localização do Google Docs |
 | Google Docs “Parte 1” | Integral por exportação pública em texto; cópia em `proposta_inicial.txt` | Equipe, base, problema, H1–H4, tratamentos e métodos possíveis |
-| `overleaf.txt` | Integral; contém convite com token | Tentativa de leitura retornou “Something went wrong”; conteúdo do projeto não disponível |
+| Projeto Overleaf | Leitura integral pela sessão autorizada do Chrome | Artigo atualizado, compilado e revisado com 9 páginas; link versionado sem token de convite |
 | CSV local | Todas as linhas/colunas auditadas por código | Dados efetivamente analisados; hash registrado nos metadados |
 
 Documento inicial: https://docs.google.com/document/d/1zYuZ4hVkP1XcLnEA3_y3MBFziVSHbs_Tl5khLn4gcOU/edit
@@ -41,4 +41,4 @@ Origem da base declarada na proposta: https://www.kaggle.com/datasets/blastchar/
 
 ## Limites desta entrega
 
-Não foi possível ler o artigo no Overleaf. O notebook não é o relatório final em SBC, não cria slides e não implementa o Streamlit previsto como recurso adicional. Não há datas suficientes para inferir cronograma da turma ou horizonte temporal da previsão. O nome do PDF e o semestre da proposta divergem; a divergência foi preservada nas notas.
+O artigo no Overleaf foi lido e atualizado após autorização. O relatório SBC de 9 páginas e os 11 slides com roteiro de 9 minutos estão em `output/`. Streamlit permanece como recurso futuro. Não há datas suficientes para inferir cronograma da turma ou horizonte temporal da previsão. O nome do PDF e o semestre da proposta divergem; a divergência foi preservada nas notas.

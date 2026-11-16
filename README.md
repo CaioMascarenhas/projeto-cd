@@ -1,89 +1,139 @@
-# Projeto de Ciência de Dados — Telco Customer Churn
+# Análise de churn em telecomunicações
 
-O ponto de entrada é [`projeto_churn.ipynb`](projeto_churn.ipynb). O notebook está em português e cobre auditoria, limpeza, engenharia de atributos, EDA, as quatro hipóteses da proposta, comparação de modelos, calibração, escolha de limiar, avaliação e recomendações. Os resultados ficam salvos no próprio notebook e em `outputs/`.
+Projeto de Ciência de Dados da **UFAL / Instituto de Computação**, com a base IBM Telco Customer Churn. Estudamos quais perfis apresentam mais cancelamentos e como organizar uma lista de risco para priorizar ações de retenção.
 
-Foram lidos integralmente os dois PDFs locais e a proposta inicial do Google Docs, copiada para `docs/proposta_inicial.txt`. O convite do Overleaf retornou erro de acesso; o texto do artigo remoto não foi lido. O semestre diverge entre o nome do PDF e a proposta. Nenhum prazo foi inferido.
+## Do que se trata este repositório?
 
-## Executar no Windows
+**Churn significa quando um cliente cancela um serviço.** Pense em alguém que deixa de usar sua operadora de telefone ou internet.
 
-Recomendado: Python 3.11. Na pasta deste projeto, abra o PowerShell e execute:
+Este repositório reúne um trabalho de graduação que busca responder: **quais características aparecem com mais frequência entre os clientes que cancelaram e como identificar perfis com maior risco de cancelamento?** A ideia é ajudar uma empresa a decidir quais clientes merecem atenção primeiro, quando ela não consegue entrar em contato com todos.
+
+Usamos uma base de estudo com informações de **7.043 clientes**, como tipo de contrato, tempo na empresa, valor da conta, serviços contratados e registro de cancelamento. Os dados já estavam disponíveis; não fizemos uma pesquisa com clientes nem executamos uma campanha real.
+
+O trabalho percorre estas etapas:
+
+1. **Conferir e tratar os dados:** verificar informações vazias e preparar os campos para a análise.
+2. **Entender os cancelamentos:** comparar grupos de clientes e investigar as quatro hipóteses da proposta inicial.
+3. **Comparar modelos:** testar métodos que calculam uma pontuação de risco a partir das características dos clientes.
+4. **Avaliar os resultados:** medir quantos cancelamentos o modelo encontra, quantos alertas ele erra e como o ranking funciona com uma quantidade limitada de contatos.
+5. **Comunicar as conclusões:** reunir os resultados no notebook, no artigo e nos slides da apresentação.
+
+**O principal resultado:** no conjunto reservado para avaliação, os 20% de clientes com maior pontuação concentraram cerca de 49% dos cancelamentos. Isso indica que o ranking pode ajudar a priorizar a atenção. Ainda seria preciso testar a estratégia com dados novos e clientes ativos para saber se ela realmente reduz cancelamentos.
+
+Para **entender o trabalho**, comece pelo artigo ou pelos slides abaixo. Para **reproduzir a análise**, abra o notebook no Colab e siga as instruções deste README.
+
+[![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/CaioMascarenhas/projeto-cd/blob/main/projeto_churn.ipynb)
+
+## Entregas
+
+| Material | Conteúdo |
+|---|---|
+| [Notebook executado](projeto_churn.ipynb) | Tratamentos, quatro hipóteses e comparação dos modelos |
+| [Artigo em PDF](output/pdf/artigo_churn_atualizado.pdf) | Relatório SBC com 9 páginas |
+| [Código LaTeX](output/overleaf/main.tex) | Texto e tabelas do artigo |
+| [Pacote para Overleaf](output/overleaf/artigo_atualizado.zip) | LaTeX, estilo SBC e duas figuras |
+| [Apresentação em PDF](output/pdf/apresentacao_churn_final.pdf) | 11 slides para até 10 minutos |
+| [Slides editáveis](output/apresentacao/apresentacao_churn_final.pptx) | PowerPoint com gráficos, tabelas e notas de fala |
+| [Roteiro](output/apresentacao/roteiro_fala.md) | Planejamento de 9 minutos e apoio para perguntas |
+| [Resumo dos resultados](outputs/resumo_resultados.md) | Síntese da execução validada |
+
+## Resultados principais
+
+A base contém **7.043 clientes**, 21 colunas e **26,54% de churn**. Contrato mensal, permanência curta, falta de segurança/suporte na fibra e cheque eletrônico entre faturas altas apresentaram associação com mais cancelamentos no treino, após correção de Holm.
+
+A Random Forest obteve a maior average precision (AP) na validação cruzada, com diferença pequena para a Regressão Logística. Após calibração, no teste reservado:
+
+| Indicador | Resultado |
+|---|---:|
+| ROC-AUC | 0,843 |
+| Average precision (AP) | 0,654 |
+| Revocação no corte F2 | 93,6% |
+| Precisão nesse corte | 41,7% |
+| Clientes sinalizados nesse corte | 59,5% |
+| Captura nos 20% de maior risco | 49,2% dos churns |
+| Precisão nesses 20% | 65,2% |
+
+O corte F2 encontrou 350 dos 374 churns do teste, com 489 falsos positivos. Sua acurácia foi 63,6%, abaixo dos 73,5% de sempre prever não churn. AUC e AP não são porcentagens de acertos. Os resultados mostram a troca entre detecção, quantidade de contatos e precisão.
+
+A análise é retrospectiva e observacional. Ela não comprova antecipação em produção, efeito causal das ofertas ou lucro de campanha. A simulação financeira usa premissas hipotéticas e unidades monetárias da base. Propomos um piloto prospectivo com grupo controle.
+
+## Google Colab
+
+1. Clique em **Abrir no Colab** e execute a seção **0**.
+2. Quando solicitado, envie [telco_pipeline.py](telco_pipeline.py) e [o CSV original](WA_Fn-UseC_-Telco-Customer-Churn.csv), mantendo os nomes.
+3. A preparação aproveita bibliotecas compatíveis e instala apenas as ausentes/incompatíveis. Se pedir reinício, reinicie a sessão e execute desde o começo.
+4. Use **Executar tudo**, com **CPU**, sem necessidade de GPU.
+5. A seção **13** baixa os resultados em ZIP. Salve também o notebook com as saídas.
+
+Não é preciso enviar PDFs, `.venv` ou o lock do Windows. O armazenamento da sessão é temporário. As versões efetivas ficam em `outputs/metadados.json`. O fluxo específico de upload/download foi testado por simulação; as execuções integrais validadas ocorreram localmente.
+
+## Executar localmente
+
+Use **Python 3.11** e execute os comandos na raiz do projeto.
+
+### Windows / PowerShell
 
 ```powershell
+git clone https://github.com/CaioMascarenhas/projeto-cd.git
+cd projeto-cd
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe scripts/executar_notebook.py
+.\.venv\Scripts\python.exe scripts/verificar_projeto.py
+.\.venv\Scripts\python.exe scripts/verificar_colab.py
+```
+
+Para abrir a interface:
+
+```powershell
 .\.venv\Scripts\python.exe -m jupyterlab projeto_churn.ipynb
 ```
 
-No notebook, selecione o Python da `.venv` e execute **Restart Kernel and Run All**. A execução começa pelo CSV original e recria as saídas. Não é necessário ativar a `.venv` nem alterar a política de execução do PowerShell. Se a `.venv` já existe e está instalada, basta usar o terceiro comando.
+### Linux / macOS
 
-Para executar tudo sem abrir a interface:
-
-```powershell
-.\.venv\Scripts\python.exe scripts/executar_notebook.py
-.\.venv\Scripts\python.exe scripts/verificar_projeto.py
+```bash
+git clone https://github.com/CaioMascarenhas/projeto-cd.git
+cd projeto-cd
+python3.11 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python scripts/executar_notebook.py
+.venv/bin/python scripts/verificar_projeto.py
+.venv/bin/python scripts/verificar_colab.py
 ```
 
-O executor usa um kernel privado em `tmp/kernels/` com o mesmo Python do comando. Não altera os kernels globais. Caso alguma célula falhe, salva as saídas e o erro no notebook para diagnóstico. O tempo depende da máquina; há 5 folds para seleção e 3 para calibração, com paralelismo limitado para portabilidade.
+O executor usa um kernel privado em `tmp/kernels/` com o mesmo Python do comando. O notebook salva as saídas, inclusive em caso de erro para diagnóstico. A execução gera `outputs/modelo_churn.joblib`, que fica fora do Git. Execute o notebook antes da verificação completa do modelo.
 
-No VS Code, abra a pasta do projeto e selecione `.venv\Scripts\python.exe` como kernel. `requirements-lock.txt` registra o ambiente completo validado **no Windows**, incluindo dependências de plataforma.
+`requirements.txt` fixa as dependências diretas validadas. `requirements-lock.txt` registra o ambiente completo do **Windows**; não o instale diretamente no Colab ou Linux. A verificação automática no GitHub usa Python 3.11 no Linux.
 
-## Executar no Google Colab
+## Preparação e avaliação
 
-1. Acesse https://colab.research.google.com/ e abra `projeto_churn.ipynb` pela opção de enviar notebook.
-2. Execute a seção **0. Preparação para Google Colab**. Quando aparecer o seletor, envie juntos `telco_pipeline.py` e `WA_Fn-UseC_-Telco-Customer-Churn.csv`, com esses nomes originais.
-3. A preparação aproveita bibliotecas compatíveis já instaladas e instala apenas as ausentes/incompatíveis. Se pedir reinício após instalação, reinicie a sessão e execute novamente desde o começo.
-4. Execute as demais células na ordem, ou use **Executar tudo** e aguarde o envio dos arquivos quando solicitado. Pode usar CPU: os algoritmos implementados não utilizam GPU.
-5. Ao final, a seção **13. Baixar resultados no Colab** gera e baixa `resultados_churn.zip`, com `outputs/` e o módulo necessário para recarregar o modelo. Salve também o notebook com as saídas pelo menu de download do Colab.
+- O CSV original é preservado. Os 11 espaços em branco em `TotalCharges`, todos com `tenure=0`, recebem acumulado zero por regra explícita de domínio, mantendo indicador da ausência original.
+- `SeniorCitizen` é categórica. Estados “sem internet/telefone” continuam distintos de “não contratou”. IDs e combinações de serviços são validados.
+- Criamos contagem de seis serviços adicionais e gasto acumulado por mês, sem divisão por zero. Extremos plausíveis são mantidos.
+- Semente 42 e divisão estratificada: **4.225 no treino, 1.409 na validação e 1.409 no teste**. EDA e inferência usam o treino.
+- Imputação, one-hot e padronização são ajustados dentro de cada fold.
+- Dummy, Logística, Árvore, Random Forest e HistGradientBoosting são comparados por AP em CV de 5 folds. O vencedor recebe calibração sigmoid em 3 folds do treino. A validação escolhe o limiar F2.
+- O teste avalia a solução congelada e a referência. Não há reajuste com validação/teste após escolher o limiar.
 
-Não é preciso enviar PDFs, `AGENTS.md`, `.venv`, `requirements-lock.txt` ou resultados antigos para executar a análise. As referências documentais já estão explicadas no notebook. Os arquivos enviados e gerados ficam no armazenamento temporário da sessão; baixe os resultados antes de encerrá-la.
+## Organização
 
-O Colab usa faixas de versões compatíveis, registradas na primeira célula, em vez do lock do Windows. As versões realmente usadas ficam em `outputs/metadados.json`; resultados podem variar entre versões/plataformas. A execução local foi validada e o fluxo específico do Colab foi verificado por simulação; não houve execução autenticada no serviço do Google.
+```text
+projeto_churn.ipynb       Análise completa e resultados salvos
+telco_pipeline.py        Tratamentos e pipeline reutilizável
+scripts/                 Execução, verificações e geração do artigo
+docs/                    Proposta inicial e rastreabilidade das fontes
+outputs/                 Tabelas, 11 figuras, dados limpos e metadados
+output/overleaf/          Fontes e pacote do artigo SBC
+output/pdf/              PDFs do artigo e da apresentação
+output/apresentacao/     Slides editáveis e roteiro
+AGENTS.md                Orientações de manutenção e metodologia
+```
 
-Referências oficiais: [FAQ do Colab](https://research.google.com/colaboratory/faq.html) e [implementação de upload/download](https://github.com/googlecolab/colabtools/blob/main/google/colab/files.py).
+`outputs/` armazena os resultados computacionais; `output/` reúne os materiais de entrega. Temporários, ambientes virtuais, modelos serializados, backups privados e tokens de convite não devem ser versionados.
 
-## O que foi tratado
+### Reutilizar o modelo
 
-- 7.043 clientes, 21 colunas e 19 preditores originais. O CSV original é preservado.
-- Espaços em branco em `TotalCharges` viram ausência numérica. Os 11 casos com permanência zero recebem acumulado zero por uma hipótese de domínio explícita, mantendo indicador da ausência original. Outros nulos são imputados pela mediana no treino.
-- `SeniorCitizen` é categórica. “Sem internet/telefone” permanece distinto de “não contratou”. IDs, alvo, valores negativos, categorias desconhecidas e combinações de serviços incoerentes são validados.
-- Contagem de seis serviços adicionais e gasto acumulado por mês, sem divisão por zero.
-- Imputação, one-hot e padronização dentro de cada fold do pipeline; extremos plausíveis são mantidos.
-
-## Avaliação e decisões
-
-A divisão estratificada usa semente 42 e aproximadamente 60% treino, 20% validação e 20% teste. EDA e inferência usam apenas o treino. H1–H4 recebem testes bilaterais, correção de Holm, tamanhos de efeito e intervalos de confiança.
-
-Dummy, Regressão Logística, Árvore, Random Forest e HistGradientBoosting são comparados por average precision em CV de 5 folds. O boosting nativo evita dependências adicionais de XGBoost/LightGBM. O vencedor recebe calibração sigmoid em CV de 3 folds no treino e limiar F2 escolhido na validação. O teste final avalia a solução congelada e a referência Dummy. O modelo não é reajustado com validação/teste após escolher o limiar.
-
-As recomendações têm evidência, ação, prazo e indicador. A simulação financeira usa premissas hipotéticas e unidades monetárias da base. Captura retrospectiva de churn não significa cancelamento evitado. Sem datas e janela de previsão, o notebook não comprova desempenho antecipatório em produção nem efeito causal de uma campanha.
-
-## Arquivos importantes
-
-| Arquivo | Uso |
-|---|---|
-| `projeto_churn.ipynb` | Análise completa, código e resultados |
-| `AGENTS.md` | Contexto, fontes, requisitos e regras para manutenção |
-| `telco_pipeline.py` | Tratamentos reutilizáveis e pipeline serializável |
-| `docs/proposta_inicial.txt` | Cópia textual da proposta consultada |
-| `docs/fontes_e_requisitos.md` | Fontes lidas, limitações de acesso e rastreabilidade |
-| `requirements.txt` | Versões diretas validadas |
-| `requirements-lock.txt` | Ambiente Windows completo |
-| `scripts/executar_notebook.py` | Execução integral e salvamento com nbclient |
-| `scripts/verificar_projeto.py` | Integridade, casos de tratamento, partições e recarga |
-
-## Saídas geradas
-
-| Caminho em `outputs/` | Conteúdo |
-|---|---|
-| `dados_limpos.csv` | Tabela com limpeza determinística, ID/alvo e indicador de ausência; sem imputação estatística global |
-| `figuras/` | 11 gráficos PNG para análise e apresentação |
-| `tabelas/` | Auditoria, dicionário, estatísticas, hipóteses, CV, teste, ICs, captura, interpretação e cenários |
-| `resumo_resultados.md` | Síntese calculada a partir da execução |
-| `metadados.json` | Hash do CSV, versões, parâmetros, partições, limiar e métricas |
-| `modelo_churn.joblib` | Pipeline calibrado e limiar; manter `telco_pipeline.py` junto ao projeto |
-| `exemplo_entrada.csv` | Exemplo dos 19 preditores brutos aceitos pelo modelo |
-
-Exemplo de recarga, depois da execução:
+Depois de executar o notebook, mantenha `telco_pipeline.py` disponível e forneça os **19 preditores brutos**:
 
 ```python
 import joblib
@@ -95,16 +145,20 @@ probabilidades = artefato["pipeline"].predict_proba(clientes)[:, 1]
 sinalizados = probabilidades >= artefato["limiar"]
 ```
 
-Use apenas artefatos joblib gerados por você ou de origem confiável. A entrada deve ter o esquema bruto do CSV; não envie `dados_limpos.csv` como se fosse entrada bruta, pois `SeniorCitizen` já foi transformada. O ranking exportado é uma avaliação retrospectiva do teste, não uma lista de clientes ativos para contato real.
+Use apenas artefatos joblib de origem confiável. `dados_limpos.csv` é uma saída de auditoria, não a entrada bruta desse pipeline. O ranking exportado descreve o teste, não uma campanha com clientes ativos.
 
-O notebook fornece os experimentos e evidências para o artigo SBC de até 12 páginas. O artigo final e o Streamlit planejado na proposta são entregáveis separados.
+### Atualizar o artigo
 
-## Apresentação dos resultados
+```powershell
+.\.venv\Scripts\python.exe scripts/preparar_artigo.py
+```
 
-O pedido posterior do grupo definiu uma apresentação de até 10 minutos. A versão preparada tem 11 slides e roteiro de 9 minutos, com uma margem para pausas:
+O comando usa as saídas do notebook para gerar o LaTeX, duas figuras e o ZIP. Não compila o PDF nem publica no Overleaf. Compile o pacote no Overleaf, confira o limite de 12 páginas e atualize o PDF exportado. O PDF incluído tem 9 páginas, compiladas no Overleaf e revisadas visualmente. Mudanças nos resultados também exigem revisar os slides e o roteiro.
 
-- [Slides editáveis](output/apresentacao/apresentacao_churn_final.pptx), com notas de fala, gráficos e tabelas editáveis.
-- [PDF para apresentar](output/pdf/apresentacao_churn_final.pdf).
-- [Roteiro de fala](output/apresentacao/roteiro_fala.md), com tempo por slide e respostas para perguntas comuns.
+## Equipe e fontes
 
-A sequência apresenta objetivo, preparação, quatro hipóteses, comparação dos modelos, resultados no teste, prioridade de contato, ações e limites. O limite de 10 minutos solicitado pelo grupo substitui, para este material, o tempo maior descrito nos PDFs da disciplina.
+**Equipe:** Arthur Vinicius Ferreira Rodrigues, Caio Mascarenhas Soares, Mírian Natália Gomes dos Santos e Vinicius Albuquerque Sales de Alencar. **Docente:** Prof. Dr. Bruno Almeida Pimentel.
+
+Base: [IBM Telco Customer Churn no Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn). As condições de uso dos dados e do template SBC pertencem às fontes originais; este repositório não atribui uma nova licença a esses materiais.
+
+Os PDFs da disciplina e a proposta orientaram o trabalho. Veja [fontes e requisitos](docs/fontes_e_requisitos.md). O nome de um PDF e a proposta divergem quanto ao semestre; nenhum calendário foi inferido. O artigo e os slides estão concluídos. Streamlit e validação em produção permanecem como trabalhos futuros.

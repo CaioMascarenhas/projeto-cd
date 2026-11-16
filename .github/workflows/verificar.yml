@@ -1,0 +1,29 @@
+name: Verificar projeto
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  notebook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Instalar dependências
+        run: python -m pip install -r requirements.txt
+      - name: Executar notebook
+        run: python scripts/executar_notebook.py
+      - name: Verificar resultados e modelo
+        run: python scripts/verificar_projeto.py
+      - name: Verificar Colab por simulação
+        run: python scripts/verificar_colab.py
+      - name: Gerar fontes do artigo sem backup privado
+        run: python scripts/preparar_artigo.py
